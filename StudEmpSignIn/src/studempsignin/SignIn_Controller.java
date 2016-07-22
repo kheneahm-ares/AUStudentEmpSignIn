@@ -1,9 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ * This class contains a function that executes if the user clicks the sign in button
+Note: this class implements tryCatch, fxml, event handling, and exceptions 
+*/
 package studempsignin;
+
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,47 +13,62 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 /**
  *
  * @author kheneahmares
  */
-public class DBaseDriver {
-
-    private Connection connect;
+public class SignIn_Controller {
+    @FXML
+    private Button signInBtn;
+    @FXML
+    private TextField empIDField;
+    @FXML
+    private Text invalidID;
+    @FXML 
+    private TextArea empInfo;
     
+    private Connection connection;
+    
+    
+    public SignIn_Controller() throws IOException{
+        
+    }
+    
+    public void signIn() throws Exception{
+        signInBtn.setOnAction((ActionEvent e) -> {
+            try {
+                DBaseDriver connect = new DBaseDriver("jdbc:mysql://localhost:3306/AUStudentEmployees",
+                        "kheneahm", "kennygoham");
+                String empID = empIDField.getText();
+                signingIn(empID);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(SignIn_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             
+        });
+    }
 
-    public DBaseDriver(String dbURL, String user, String password) throws SQLException {
-
-        connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
+    private void signingIn(String empID) throws SQLException {
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
                 "kennygoham");
-    }
 
-    public void shutdown() throws SQLException {
-        if (connect != null) {
-            connect.close();
-        }
-    }
-
-    public void printTest(String empID) throws SQLException {
-        
-        //create scanner
-//        Scanner input = new Scanner(System.in);
-//        String empID;
-        
         while(true){
-        //prompt user to enter ID
-//        System.out.println("Enter Employee ID: ");
-//        empID = input.next();
-        
-        //check if the ID is valid
+
         boolean isIDInDatabase = checkDatabase(empID);
         
         if(isIDInDatabase == false){
-            System.out.println("Enter valid ID!");
+            invalidID.setOpacity(1);
         }
         else{
             break;
@@ -62,7 +77,7 @@ public class DBaseDriver {
 
         
         //create statement
-        Statement statement = connect.createStatement();
+        Statement statement = connection.createStatement();
         
         //convert stringID to string to make the query valid!
         
@@ -72,11 +87,12 @@ public class DBaseDriver {
 
         //iterate through the result and print the statements
         while (resultSet.next()) {
-            System.out.println("Employee ID: " + resultSet.getString(1) + " is "
+            empInfo.setText("Employee ID: " + resultSet.getString(1) + " is "
                     + resultSet.getString(2) + " " + resultSet.getString(3));
+            
         }
 
-        connect.close();
+        connection.close();
 
     }
 
@@ -130,4 +146,5 @@ public class DBaseDriver {
             }
          return arrayID;
     }
+    
 }
