@@ -17,13 +17,16 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 import javax.print.DocFlavor.URL;
+
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -47,7 +50,12 @@ public class SignIn_Controller extends MainPage_Controller implements
 
 	@FXML
 	private Button signInBtn;
-
+	@FXML
+	private Button clockInBtn;
+	@FXML
+	private Button clockOutBtn;
+	@FXML
+	private Button estimatedHoursBtn;
 
 	@FXML
 	private TextField empIDField;
@@ -56,6 +64,8 @@ public class SignIn_Controller extends MainPage_Controller implements
 
 	@FXML
 	Text empName;
+	@FXML
+	Text clockInText;
 	
 	MainPage_Controller method;
 
@@ -63,6 +73,27 @@ public class SignIn_Controller extends MainPage_Controller implements
 
 	public SignIn_Controller() throws IOException {
 
+	}
+	
+	@FXML
+	public void clockIn(){
+		clockInBtn.setOnAction((e)->{
+			
+			try{
+				method = new MainPage_Controller();
+				method.clockingIn();
+				//can use these couple lines of code if you want to change current window
+				//with the new one; didnt want to use it bc I didnt want the current window 
+				//to disappear, just a new window pop up
+//				Stage window;
+//				window = (Stage) clockInBtn.getScene().getWindow();
+
+			}
+			 catch (Exception ex) {
+					Logger.getLogger(SignIn_Controller.class.getName()).log(
+							Level.SEVERE, null, ex);
+				}
+		});
 	}
 
 	// this method is called by the fxml
@@ -88,8 +119,9 @@ public class SignIn_Controller extends MainPage_Controller implements
 
 		});
 	}
-
-	@FXML
+	
+	
+	
 	public void signingIn(String empID) throws SQLException, Exception {
 		// connect to database via connection type so you can createStatement
 		connection = DriverManager.getConnection(
