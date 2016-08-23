@@ -61,6 +61,7 @@ public class MainPage_Controller implements Initializable {
 		while (result.next()) {
 			controller.empName.setText(result.getString(1) + " "
 					+ result.getString(2));
+			controller.empIDMain.setText(empID);
 		}
 
 		window.show();

@@ -61,39 +61,135 @@ public class SignIn_Controller extends MainPage_Controller implements
 	private TextField empIDField;
 	@FXML
 	private Text invalidID;
-
+	@FXML
+	private Text clockInError;
+	
+	
+	@FXML
+	Text empIDMain;
 	@FXML
 	Text empName;
 	@FXML
 	Text clockInText;
-	
+
 	MainPage_Controller method;
 
 	private Connection connection;
+	
+	String empID;
 
 	public SignIn_Controller() throws IOException {
 
 	}
-	
+
 	@FXML
-	public void clockIn(){
-		clockInBtn.setOnAction((e)->{
-			
-			try{
+	public void clockOut() {
+		clockOutBtn.setOnAction((e) -> {
+			try {
+				closeCurrentWindow(clockOutBtn); // closes window
+				Stage stg = new Stage();
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(SignIn_Controller.class
+						.getResource("RootGUI.fxml"));
+				BorderPane root = (BorderPane) loader.load();
+
+				Scene scn = new Scene(root);
+				stg.setScene(scn);
+				stg.show();
+
+				FXMLLoader load = new FXMLLoader();
+				load.setLocation(SignIn_Controller.class
+						.getResource("ShowControlGUI.fxml"));
+				AnchorPane controls = (AnchorPane) load.load();
+				root.setCenter(controls);
+			}
+
+			catch (Exception exc) {
+				exc.printStackTrace();
+			}
+		});
+	}
+
+	@FXML
+	public void clockIn() {
+		clockInBtn.setOnAction((e) -> {
+
+			try {
+				//used to get name to check status but was too vague
+				//needed to use empID...
+				//thats why i hid an empID in main page 
+				
+//				String[] wholeName = empName.getText().split(" ");
+//				String fName = wholeName[0];
+//				String lName = wholeName[1];
+				
+				String empID = empIDMain.getText();
+
+				String clockedInValue = checkStatus(empID); //call method and store value
+
+				if (clockedInValue == "1") {
+					clockInError.setOpacity(1);
+					
+				} 
+				else{
 				method = new MainPage_Controller();
 				method.clockingIn();
-				//can use these couple lines of code if you want to change current window
-				//with the new one; didnt want to use it bc I didnt want the current window 
-				//to disappear, just a new window pop up
-//				Stage window;
-//				window = (Stage) clockInBtn.getScene().getWindow();
-
-			}
-			 catch (Exception ex) {
-					Logger.getLogger(SignIn_Controller.class.getName()).log(
-							Level.SEVERE, null, ex);
+				changeStatus(clockedInValue, empID);
+				// can use these couple lines of code if you want to change
+				// current window
+				// with the new one; didnt want to use it bc I didnt want
+				// the current window
+				// to disappear, just a new window pop up
+				// Stage window;
+				// window = (Stage) clockInBtn.getScene().getWindow();
 				}
-		});
+
+		} catch (Exception ex) {
+			Logger.getLogger(SignIn_Controller.class.getName()).log(
+					Level.SEVERE, null, ex);
+		}
+	})	;
+	}
+
+	private void changeStatus(String clockedInValue, String empID) throws SQLException {
+		Statement stmnt = connection.createStatement();
+		
+		if(clockedInValue == "1"){
+			stmnt.executeUpdate("UPDATE emp_info set isClockedIn = 0 where EmployeeID = "
+						+ empID + ";");
+
+		}
+		else{
+			stmnt.executeUpdate("UPDATE emp_info set isClockedIn = 1 where EmployeeID = "
+					+ empID + ";");
+		}
+	
+}
+//method to check whether the user is already signed in!
+	//using firstname and lastname as conditions in query
+	private String checkStatus(String empID) throws SQLException {
+		connection = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+				"password");
+
+		Statement stmnt = connection.createStatement();
+//		ResultSet result = stmnt
+//				.executeQuery("select isClockedIn from emp_info where "
+//						+ "FirstName = '" + fName + "' AND LastName = '"
+//						+ lName + "';");
+		
+		ResultSet result = stmnt
+				.executeQuery("select isClockedIn from emp_info where "
+						+ "EmployeeID = '" + empID + "';");
+
+		String statusValue = null;
+
+		while (result.next()) {
+			statusValue = result.getString(1);
+		}
+
+		return statusValue;
+
 	}
 
 	// this method is called by the fxml
@@ -106,7 +202,7 @@ public class SignIn_Controller extends MainPage_Controller implements
 				// DBaseDriver connect = new
 				// DBaseDriver("jdbc:mysql://localhost:3306/AUStudentEmployees",
 				// "kheneahm", "kennygoham");
-				String empID = empIDField.getText();
+				empID = empIDField.getText();
 
 				method = new MainPage_Controller();
 				empIDField.setText("0001");
@@ -119,9 +215,7 @@ public class SignIn_Controller extends MainPage_Controller implements
 
 		});
 	}
-	
-	
-	
+
 	public void signingIn(String empID) throws SQLException, Exception {
 		// connect to database via connection type so you can createStatement
 		connection = DriverManager.getConnection(

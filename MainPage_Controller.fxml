@@ -8,9 +8,18 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.SignIn_Controller">
    <children>
-      <Text fx:id="empName" layoutX="231.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BOYYYYY" />
-      <Button fx:id="clockInBtn" layoutX="68.0" layoutY="101.0" mnemonicParsing="false" onAction="#clockIn" text="Clock In" />
-      <Button layoutX="73.0" layoutY="150.0" mnemonicParsing="false" text="Clock Out" />
-      <Button layoutX="73.0" layoutY="187.0" mnemonicParsing="false" text="Estimated Hours" />
+      <Text fx:id="empName" layoutX="219.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="24.0" />
+         </font></Text>
+      <Button fx:id="clockInBtn" layoutX="68.0" layoutY="124.0" mnemonicParsing="false" onAction="#clockIn" text="Clock In" />
+      <Button fx:id="clockOutBtn" layoutX="68.0" layoutY="161.0" mnemonicParsing="false" onAction="#clockOut" text="Clock Out" />
+      <Button layoutX="68.0" layoutY="198.0" mnemonicParsing="false" text="Estimated Hours" />
+      <Text layoutX="182.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, " textAlignment="CENTER">
+         <font>
+            <Font size="25.0" />
+         </font></Text>
+      <Text fx:id="clockInError" fill="#ff0404" layoutX="371.0" layoutY="276.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Clocked In!" />
+      <Text fx:id="empIDMain" layoutX="14.0" layoutY="284.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
    </children>
 </AnchorPane>
