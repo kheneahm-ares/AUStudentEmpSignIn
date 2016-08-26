@@ -31,12 +31,47 @@ public class MainPage_Controller implements Initializable {
 
 	}
 
+
+	
+	//this method will show the hoursinfo page and also setting the hours text
+	//relative to its empID
+	//this uses a controller to do so
+	//also sets the empID hours for the method in signIncontroller to use
+	public void estimateHours(String empID) throws IOException, SQLException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(
+				"HoursInfo.fxml"));
+		Parent root = (Parent) loader.load();
+		SignIn_Controller controller = (SignIn_Controller) loader.getController();
+		Scene scene = new Scene(root);
+		window.setScene(scene);
+		
+		Connection connect = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
+				"kennygoham");
+
+		Statement stmnt = connect.createStatement();
+		ResultSet result = stmnt
+				.executeQuery("select EstimatedHours from emp_info"
+						+ " where EmployeeID = " + empID + "; ");
+		
+		while(result.next()){
+			controller.estimateHoursText.setText(result.getString(1));
+			controller.empIDHours.setText(empID);
+		}
+		
+		window.show();
+		
+		connect.close();
+		
+	}
 	// this method fixed my problem of changing text before window shows up
 	// essentially you are supposed to call the controller from where you loaded
 	// the fxml
 	// then you call the fields in that controller and then thats when you can
 	// change it
-
+	
+	//also sets the empIDMain for the method in signInController to use
 	public void signIn(String empID, Button btn) throws IOException,
 			SQLException {
 		Stage window;
@@ -65,11 +100,12 @@ public class MainPage_Controller implements Initializable {
 		}
 
 		window.show();
-
+		
+		connect.close();
 	}
 
-	@FXML
-	public void clockingIn() throws Exception {
+	//clockingIn method will show the time clocked In
+	public long clockingIn() throws Exception {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(
 				"ClockIn_Controller.fxml"));
@@ -84,8 +120,10 @@ public class MainPage_Controller implements Initializable {
 
 		
 		controller.clockInText.setText(df.format(dateobj));
+		
 
 		window.show();
+		return dateobj.getTime();
 	}
 
 	@Override

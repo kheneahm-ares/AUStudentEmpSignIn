@@ -14,12 +14,14 @@
          </font></Text>
       <Button fx:id="clockInBtn" layoutX="68.0" layoutY="124.0" mnemonicParsing="false" onAction="#clockIn" text="Clock In" />
       <Button fx:id="clockOutBtn" layoutX="68.0" layoutY="161.0" mnemonicParsing="false" onAction="#clockOut" text="Clock Out" />
-      <Button layoutX="68.0" layoutY="198.0" mnemonicParsing="false" text="Estimated Hours" />
+      <Button fx:id="estimatedHoursBtn" layoutX="68.0" layoutY="198.0" mnemonicParsing="false" onAction="#estimateHours" text="Estimated Hours" />
       <Text layoutX="182.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, " textAlignment="CENTER">
          <font>
             <Font size="25.0" />
          </font></Text>
       <Text fx:id="clockInError" fill="#ff0404" layoutX="371.0" layoutY="276.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Clocked In!" />
       <Text fx:id="empIDMain" layoutX="14.0" layoutY="284.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fx:id="clockOutError" fill="#ff0404" layoutX="381.0" layoutY="286.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Not Clocked In!" />
+      <Button fx:id="signOutBtn" layoutX="192.0" layoutY="161.0" mnemonicParsing="false" onAction="#signOut" text="Sign Out" />
    </children>
 </AnchorPane>
