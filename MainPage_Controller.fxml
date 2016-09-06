@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -8,20 +10,54 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.SignIn_Controller">
    <children>
-      <Text fx:id="empName" layoutX="219.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+      <Text fx:id="empName" layoutX="40.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="255.41463470458984">
          <font>
-            <Font size="24.0" />
+            <Font name="System Italic" size="24.0" />
          </font></Text>
-      <Button fx:id="clockInBtn" layoutX="68.0" layoutY="124.0" mnemonicParsing="false" onAction="#clockIn" text="Clock In" />
-      <Button fx:id="clockOutBtn" layoutX="68.0" layoutY="161.0" mnemonicParsing="false" onAction="#clockOut" text="Clock Out" />
-      <Button fx:id="estimatedHoursBtn" layoutX="68.0" layoutY="198.0" mnemonicParsing="false" onAction="#estimateHours" text="Estimated Hours" />
-      <Text layoutX="182.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, " textAlignment="CENTER">
+      <Button fx:id="clockInBtn" layoutX="27.0" layoutY="112.0" mnemonicParsing="false" onAction="#clockIn" prefHeight="50.0" prefWidth="129.0" text="Clock In" textAlignment="CENTER">
          <font>
-            <Font size="25.0" />
-         </font></Text>
-      <Text fx:id="clockInError" fill="#ff0404" layoutX="371.0" layoutY="276.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Clocked In!" />
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="clockOutBtn" layoutX="186.0" layoutY="112.0" mnemonicParsing="false" onAction="#clockOut" prefHeight="50.0" prefWidth="129.0" text="Clock Out" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="estimatedHoursBtn" layoutX="27.0" layoutY="185.0" mnemonicParsing="false" onAction="#estimateHours" prefHeight="50.0" prefWidth="129.0" text="Estimated Hours" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Text layoutX="94.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, " textAlignment="CENTER">
+         <font>
+            <Font name="Apple Color Emoji" size="33.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor></Text>
+      <Text fx:id="clockInError" fill="#ff0404" layoutX="369.0" layoutY="276.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already Clocked In!" />
       <Text fx:id="empIDMain" layoutX="14.0" layoutY="284.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <Text fx:id="clockOutError" fill="#ff0404" layoutX="381.0" layoutY="286.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Not Clocked In!" />
-      <Button fx:id="signOutBtn" layoutX="192.0" layoutY="161.0" mnemonicParsing="false" onAction="#signOut" text="Sign Out" />
+      <Button fx:id="signOutBtn" layoutX="186.0" layoutY="185.0" mnemonicParsing="false" onAction="#signOut" prefHeight="50.0" prefWidth="129.0" text="Sign Out" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Text fx:id="timeText" layoutX="358.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+         <font>
+            <Font name="GungSeo Regular" size="26.0" />
+         </font>
+         <effect>
+            <Reflection />
+         </effect></Text>
    </children>
 </AnchorPane>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.SignIn_Controller">
+   <children>
+      <Text layoutX="135.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="CENTER">
+         <font>
+            <Font name="Times New Roman Bold" size="22.0" />
+         </font></Text>
+      <Text fx:id="adminGroupText" layoutX="75.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="46.0">
+         <font>
+            <Font name="Times New Roman Bold" size="22.0" />
+         </font></Text>
+      <Button fx:id="addEmpBtn" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" onAction="#addEmp" prefHeight="43.0" prefWidth="107.0" text="Add">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="delEmpBtn" layoutX="139.0" layoutY="62.0" mnemonicParsing="false" onAction="#deleteEmp" prefHeight="43.0" prefWidth="107.0" text="Delete">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="updEmpBtn" layoutX="14.0" layoutY="126.0" mnemonicParsing="false" onAction="#updateEmp" prefHeight="43.0" prefWidth="107.0" text="Update">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="signOutAdmin" layoutX="139.0" layoutY="126.0" mnemonicParsing="false" onAction="#signOutAdmin" prefHeight="43.0" prefWidth="107.0" text="Sign Out">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+   </children>
+</AnchorPane>

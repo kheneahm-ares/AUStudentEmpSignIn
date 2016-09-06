@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.collections.*?>
+
+<AnchorPane prefHeight="270.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.Admin_Controller">
+   <children>
+      <Text layoutX="42.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID:" />
+      <Text layoutX="43.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" wrappingWidth="74.882080078125" />
+      <Text layoutX="43.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" />
+      <Text layoutX="44.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group:" wrappingWidth="98.1026611328125" />
+      <TextField fx:id="empID" layoutX="154.0" layoutY="54.0" />
+      <TextField fx:id="fName" layoutX="154.0" layoutY="97.0" />
+      <TextField fx:id="lName" layoutX="154.0" layoutY="145.0" />
+      <ComboBox fx:id="groupName" layoutX="154.0" layoutY="189.0" prefHeight="26.0" prefWidth="137.0">
+      <items>
+      		<FXCollections fx:factory="observableArrayList">
+      			<String fx:value="ITS" />
+      			<String fx:value="CPS" />
+      			<String fx:value="Mail" />
+      		</FXCollections>
+      </items>
+      </ComboBox>
+      <Text layoutX="49.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(4 characters)">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
+      <Text layoutX="47.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(&lt;15 characters)">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
+      <Text layoutX="48.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(&lt;15 characters)">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
+      <Text fx:id="empIDErrorTxt" fill="RED" layoutX="319.0" layoutY="70.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="155.68292617797852">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font></Text>
+      <Button fx:id="cancelBtn" layoutX="319.0" layoutY="222.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button fx:id="submitEmpBtn" layoutX="397.0" layoutY="222.0" mnemonicParsing="false" onAction="#submitEmp" text="Submit" />
+      <Text fx:id="fNameErrorTxt" fill="RED" layoutX="319.0" layoutY="113.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="155.68292617797852">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font>
+      </Text>
+      <Text fx:id="lNameErrorTxt" fill="RED" layoutX="319.0" layoutY="161.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="155.68292617797852">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font>
+      </Text>
+      <Text fx:id="gNameErrorTxt" fill="RED" layoutX="319.0" layoutY="205.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="155.68292617797852">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font>
+      </Text>
+      <Text fx:id="empAddedTxt" fill="GREEN" layoutX="160.0" layoutY="240.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" />
+      <Text layoutX="72.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add AU Employee" textAlignment="CENTER" wrappingWidth="200.1615982055664">
+         <font>
+            <Font name="Times New Roman Bold" size="22.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

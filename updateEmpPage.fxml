@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.collections.*?>
+
+<AnchorPane prefHeight="270.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.Admin_Controller">
+   <children>
+      <Text layoutX="42.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID:" />
+      <Text layoutX="43.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" wrappingWidth="74.882080078125" />
+      <Text layoutX="43.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" />
+      <Text layoutX="44.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group:" wrappingWidth="98.1026611328125" />
+      <TextField fx:id="updateEmpID" layoutX="154.0" layoutY="54.0" />
+      <TextField fx:id="updateFName" layoutX="154.0" layoutY="97.0" />
+      <TextField fx:id="updateLName" layoutX="154.0" layoutY="145.0" />
+      <ComboBox fx:id="updateGroupName" layoutX="154.0" layoutY="189.0" prefHeight="26.0" prefWidth="137.0">
+      <items>
+      		<FXCollections fx:factory="observableArrayList">
+      			<String fx:value="ITS" />
+      			<String fx:value="CPS" />
+      			<String fx:value="Mail" />
+      		</FXCollections>
+      </items>
+      </ComboBox>
+      <Text layoutX="49.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(4 characters)">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
+      <Text layoutX="47.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(&lt;15 characters)">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
+      <Text layoutX="48.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(&lt;15 characters)">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Text>
+      <Text fx:id="updateEmpIDErrorTxt" fill="RED" layoutX="354.0" layoutY="69.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="118.0">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font></Text>
+      <Button fx:id="cancelBtn" layoutX="280.0" layoutY="222.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button fx:id="submitEmpBtn" layoutX="413.0" layoutY="222.0" mnemonicParsing="false" text="Update" />
+      <Text fx:id="updateFNameErrorTxt" fill="RED" layoutX="357.0" layoutY="113.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="118.0">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font>
+      </Text>
+      <Text fx:id="updateLNameErrorTxt" fill="RED" layoutX="357.0" layoutY="161.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="118.0">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font>
+      </Text>
+      <Text fx:id="updateGNameErrorTxt" fill="RED" layoutX="357.0" layoutY="205.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="118.0">
+         <font>
+            <Font name="System Italic" size="10.0" />
+         </font>
+      </Text>
+      <Text fx:id="empAddedTxt" fill="GREEN" layoutX="98.0" layoutY="240.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" />
+      <Text layoutX="376.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Employee" textAlignment="CENTER" wrappingWidth="118.0">
+         <font>
+            <Font name="Times New Roman Bold" size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="346.0" layoutY="222.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="60.0" text="Reset" />
+      <Button fx:id="searchUpdBtn" layoutX="51.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchEmpUpdate" prefHeight="16.0" prefWidth="60.0" text="Search" />
+      <TextField fx:id="empIDUpd" layoutX="154.0" layoutY="14.0" prefHeight="26.0" prefWidth="75.0" text="EmpID" />
+      <Text fx:id="updateEmpIDError" fill="RED" layoutX="267.0" layoutY="32.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <CheckBox fx:id="empIDChckBx" layoutX="328.0" layoutY="58.0" mnemonicParsing="false" onAction="#selectEmpIDCheckBox" prefHeight="18.0" prefWidth="16.0" />
+      <CheckBox fx:id="fNameChckBx" layoutX="328.0" layoutY="101.0" mnemonicParsing="false" onAction="#selectFNameCheckBox" prefHeight="18.0" prefWidth="16.0" />
+      <CheckBox fx:id="lNameChckBx" layoutX="328.0" layoutY="149.0" mnemonicParsing="false" onAction="#selectLNameCheckBox" prefHeight="18.0" prefWidth="16.0" />
+      <CheckBox fx:id="gNameChckBx" layoutX="298.0" layoutY="193.0" mnemonicParsing="false" onAction="#selectGroupNameCheckBox" prefHeight="18.0" prefWidth="16.0" />
+   </children>
+</AnchorPane>

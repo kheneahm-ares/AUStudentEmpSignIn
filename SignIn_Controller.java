@@ -31,6 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -49,7 +50,18 @@ public class SignIn_Controller extends MainPage_Controller implements
 	private AnchorPane controlData;
 	@FXML
 	private BorderPane rootLayout;
+	
+	//admin buttons
+	@FXML
+	private Button signOutAdmin;
+	@FXML
+	private Button addEmpBtn;
+	@FXML
+	private Button delEmpBtn;
+	@FXML
+	private Button updEmpBtn;
 
+	//emp fields
 	@FXML
 	private Button signInBtn;
 	@FXML
@@ -62,7 +74,7 @@ public class SignIn_Controller extends MainPage_Controller implements
 	private Button signOutBtn;
 	@FXML
 	private Button payBtn;
-	
+
 
 	@FXML
 	private TextField empIDField;
@@ -85,9 +97,14 @@ public class SignIn_Controller extends MainPage_Controller implements
 	Text clockInText;
 	@FXML
 	Text estimateHoursText;
-	
+	@FXML
+	Text timeText;
+	@FXML
+	Text adminGroupText;
 
 	MainPage_Controller method;
+	
+	Admin_Controller adminMethod;
 
 	private Connection connection;
 
@@ -96,24 +113,56 @@ public class SignIn_Controller extends MainPage_Controller implements
 	public SignIn_Controller() throws IOException {
 
 	}
-	//method to calculate pay when paybtn is clicked
+	
 	@FXML
-	public void calcPay(){
-		payBtn.setOnAction((e) -> {
+	public void updateEmp(){
+		updEmpBtn.setOnAction((e)->{
+			adminMethod = new Admin_Controller();
 			try {
-				String empID = empIDHours.getText();
-				connection = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
-						"password");
-				
-				Statement stmnt = connection.createStatement();
-				ResultSet result = stmnt.executeQuery("select EstimatedPay from emp_info where EmployeeID = '" 
-						+ empID + "';");
-				
-				while(result.next()){
-					payInfo.setText(result.getString(1)); //sets text
-					payInfo.setOpacity(1); //makes visible
-				}
+				adminMethod.updateEmpWindow();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+	}
+	//method for delete button in admin main page
+	//calls method from admin controller class
+	@FXML
+	public void deleteEmp(){
+		delEmpBtn.setOnAction((e) ->{
+			try {
+				adminMethod = new Admin_Controller();
+				adminMethod.delEmpWindow();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+	}
+	//method for add button in admin main page
+	//calls method from admin controller class
+	@FXML
+	public void addEmp(){
+		addEmpBtn.setOnAction((e) -> {
+			
+			try {
+				adminMethod = new Admin_Controller();
+				adminMethod.addEmpWindow();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+	}
+	@FXML
+	public void signOutAdmin(){
+		signOutAdmin.setOnAction((e) -> {
+
+			try {
+
+				closeCurrentWindow(signOutAdmin);
+				loadSignInPage();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -121,12 +170,41 @@ public class SignIn_Controller extends MainPage_Controller implements
 		});
 	}
 	
-	//method for when the estimatedhoursbtn is clicked
-	//will show the hoursinfo.fxml page and calls the estimate hours method in mainpage_controller
+	// method to calculate pay when paybtn is clicked
 	@FXML
-	public void estimateHours(){
+	public void calcPay() {
+		payBtn.setOnAction((e) -> {
+			try {
+				String empID = empIDHours.getText();
+				connection = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/AUStudentEmployees",
+						"root", "password");
+
+				Statement stmnt = connection.createStatement();
+				ResultSet result = stmnt
+						.executeQuery("select EstimatedPay from emp_info where EmployeeID = '"
+								+ empID + "';");
+
+				while (result.next()) {
+					payInfo.setText(result.getString(1)); // sets text
+					payInfo.setOpacity(1); // makes visible
+				}
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+	}
+
+	// method for when the estimatedhoursbtn is clicked
+	// will show the hoursinfo.fxml page and calls the estimate hours method in
+	// mainpage_controller
+	@FXML
+	public void estimateHours() {
 		estimatedHoursBtn.setOnAction((e) -> {
 			try {
+				clockInError.setOpacity(0);
+				clockOutError.setOpacity(0);
 				String empID = empIDMain.getText();
 				method = new MainPage_Controller();
 				method.estimateHours(empID);
@@ -136,16 +214,18 @@ public class SignIn_Controller extends MainPage_Controller implements
 			}
 		});
 	}
-	//method for signing out
-	//needed because a person can sign in but if it clocks out(since clock out also is used
-	// ..for signing out) without clocking in, it will throw an exception since 
-	//the estimated minutes will be negative and will be a "long"
+
+	// method for signing out
+	// needed because a person can sign in but if it clocks out(since clock out
+	// also is used
+	// ..for signing out) without clocking in, it will throw an exception since
+	// the estimated minutes will be negative and will be a "long"
 	@FXML
-	public void signOut(){
+	public void signOut() {
 		signOutBtn.setOnAction((e) -> {
-			
+
 			try {
-		
+
 				closeCurrentWindow(signOutBtn);
 				loadSignInPage();
 			} catch (Exception e1) {
@@ -155,33 +235,36 @@ public class SignIn_Controller extends MainPage_Controller implements
 		});
 	}
 
-
-	//clocks out
+	// clocks out
 	@FXML
 	public void clockOut() {
 		clockOutBtn.setOnAction((e) -> {
 			try {
 				String empID = empIDMain.getText();
 
-				String clockedInValue = checkStatus(empID); // call method to check status
-				
-				if(clockedInValue.equalsIgnoreCase("0")){
+				String clockedInValue = checkStatus(empID); // call method to
+															// check status
+
+				if (clockedInValue.equalsIgnoreCase("0")) {
 					clockInError.setOpacity(0);
-					clockOutError.setOpacity(1);  //cant clock out without clocking in
-				}
-				else{
-				//DateFormat df = new SimpleDateFormat("HH:mm:ss");
-				Date dateobj = new Date();// store value
-				Long timeClockedOut = dateobj.getTime();
-				clockTime(empID, timeClockedOut, false);
-				setDifferenceInTime(empID); // after getting clock out, you are now ready to calculate difference
-				setHours(empID);
-				setPay(empID);
-				resetTime(empID); //reset everything to 0
-				
-				changeStatus(clockedInValue, empID);
-				closeCurrentWindow(clockOutBtn); // closes window
-				loadSignInPage();
+					clockOutError.setOpacity(1); // cant clock out without
+													// clocking in
+				} else {
+					// clockOutError.setOpacity(0);
+					// DateFormat df = new SimpleDateFormat("HH:mm:ss");
+					Date dateobj = new Date();// store value
+					Long timeClockedOut = dateobj.getTime();
+					clockTime(empID, timeClockedOut, false);
+					setDifferenceInTime(empID); // after getting clock out, you
+												// are now ready to calculate
+												// difference
+					setHours(empID);
+					setPay(empID);
+					resetTime(empID); // reset everything to 0
+
+					changeStatus(clockedInValue, empID);
+					closeCurrentWindow(clockOutBtn); // closes window
+					loadSignInPage();
 				}
 			}
 
@@ -191,7 +274,6 @@ public class SignIn_Controller extends MainPage_Controller implements
 		});
 	}
 
-	
 	@FXML
 	public void clockIn() {
 		clockInBtn.setOnAction((e) -> {
@@ -214,8 +296,9 @@ public class SignIn_Controller extends MainPage_Controller implements
 					clockOutError.setOpacity(0);
 					clockInError.setOpacity(1);
 
-				} 
-				else {
+				} else {
+					clockInError.setOpacity(0);
+					clockOutError.setOpacity(0);
 					method = new MainPage_Controller();
 					long timeClockedIn = method.clockingIn();
 					clockTime(empID, timeClockedIn, true);
@@ -230,25 +313,23 @@ public class SignIn_Controller extends MainPage_Controller implements
 		});
 	}
 
-	private void clockTime(String empID, long timeClocked, boolean isClockingIn) throws SQLException {
+	private void clockTime(String empID, long timeClocked, boolean isClockingIn)
+			throws SQLException {
 		String stringClocked = Long.toString(timeClocked);
-		
+
 		connection = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
 				"password");
-		
+
 		Statement stmnt = connection.createStatement();
-		if(isClockingIn == true){
-		stmnt.executeUpdate("UPDATE emp_hours set clockInTime = '" + 
-					stringClocked + "' where EmployeeID = '" +
-				empID + "';");
+		if (isClockingIn == true) {
+			stmnt.executeUpdate("UPDATE emp_hours set clockInTime = '"
+					+ stringClocked + "' where EmployeeID = '" + empID + "';");
+		} else {
+			stmnt.executeUpdate("UPDATE emp_hours set clockOutTime = '"
+					+ stringClocked + "' where EmployeeID = '" + empID + "';");
 		}
-		else{
-			stmnt.executeUpdate("UPDATE emp_hours set clockOutTime = '" + 
-					stringClocked + "' where EmployeeID = '" +
-				empID + "';");
-		}
-		
+
 	}
 
 	private void changeStatus(String clockedInValue, String empID)
@@ -318,30 +399,35 @@ public class SignIn_Controller extends MainPage_Controller implements
 		});
 	}
 
-	public void signingIn(String empID) throws SQLException, Exception {
+	public void signingIn(String ID) throws SQLException, Exception {
 		// connect to database via connection type so you can createStatement
 		connection = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
 				"kennygoham");
 
-		boolean isIDInDatabase = checkDatabase(empID); // calls method to check
-														// database for empId
+		boolean isEmpIDInDatabase = checkDatabase(ID); // calls method to check
+														// database for empId	
+		boolean isAdminIDInDatabase = checkDatabaseAdmin(ID);
 
-		if (isIDInDatabase == false) { // if id is not in database... invalidID!
+		if (isEmpIDInDatabase == false && isAdminIDInDatabase == false) { // if id is not in database... invalidID!
 			// empInfo.clear();
 			invalidID.setOpacity(1);
 
 		}
 
-		else {
-			method.signIn(empID, signInBtn);
+		else if (isEmpIDInDatabase == true){
+			method.signIn(ID, signInBtn);
 
+			connection.close();
+		}
+		else{
+			method.signInAdmin(ID, signInBtn);
 			connection.close();
 		}
 	}
 
 	// method to check database for empID
-	private boolean checkDatabase(String empID) throws SQLException {
+	protected boolean checkDatabase(String empID) throws SQLException {
 		boolean isInDatabase = false;
 		int i = 0;
 		int inArray = 0;
@@ -357,6 +443,59 @@ public class SignIn_Controller extends MainPage_Controller implements
 			isInDatabase = true;
 		}
 		return isInDatabase;
+	}
+	
+	// method to check database for empID
+	protected boolean checkDatabaseAdmin(String adminID) throws SQLException {
+		boolean isInDatabase = false;
+		int i = 0;
+		int inArray = 0;
+		String[] empIDs = getAdminFromDatabase();
+
+		while (i < empIDs.length) {
+			if (adminID.equals(empIDs[i])) {
+				inArray++;
+			}
+			i++;
+		}
+		if (inArray != 0) {
+			isInDatabase = true;
+		}
+		return isInDatabase;
+	}
+
+	protected String[] getAdminFromDatabase() throws SQLException {
+		Set<String> adminID = new HashSet<String>();
+		String[] arrayID;
+
+		Connection connect = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+				"password");
+		String query = "select AdminID from admin_info";
+		Statement stmnt = connect.createStatement();
+		ResultSet result = stmnt.executeQuery(query);
+
+		while (result.next()) {
+			adminID.add(result.getString("AdminID")); // or at column 1
+		}
+
+		stmnt.close();
+		
+		Iterator<String> iterator = adminID.iterator();
+		arrayID = new String[adminID.size()];
+		
+		int i = 0;
+		while(iterator.hasNext()){
+			arrayID[i] = iterator.next();
+			i++;
+		}
+		
+		connect.close();
+		
+		return arrayID;
+		
+		
+
 	}
 
 	private String[] getEmpIDFromDatabase() throws SQLException {
@@ -390,115 +529,143 @@ public class SignIn_Controller extends MainPage_Controller implements
 			i++;
 
 		}
+		connect.close();
 		return arrayID;
 	}
 
-	private void closeCurrentWindow(Button btn) {
-		// get a handle to the stage
+	protected void closeCurrentWindow(Button btn) {
+		// get current window scene
 		Stage stage = (Stage) btn.getScene().getWindow();
-		// do what you have to do
 		stage.close();
 
 	}
-	
-	private void setPay(String empID) throws SQLException{
+
+	private void setPay(String empID) throws SQLException {
 		String minutes = null;
 		Statement stmnt = connection.createStatement();
-		ResultSet result = stmnt.executeQuery("select EstimatedHours from emp_info where EmployeeID = '" 
-				+ empID + "';");
-		
-		while(result.next()){
+		ResultSet result = stmnt
+				.executeQuery("select EstimatedHours from emp_info where EmployeeID = '"
+						+ empID + "';");
+
+		while (result.next()) {
 			minutes = result.getString(1);
 		}
 		double intMinutes = Double.parseDouble(minutes);
-		double pay = (Double) (intMinutes * (8.5)); //divided to get pay per hour //cast double to set precision to 2 decimals
+		double pay = (Double) (intMinutes * (8.5)); // divided to get pay per
+													// hour //cast double to set
+													// precision to 2 decimals
 		DecimalFormat two = new DecimalFormat("#0.00");
-		//String stringPay = Double.toString(pay);
-		
-		stmnt.executeUpdate("UPDATE emp_info set EstimatedPay = '$" + two.format(pay) + "' where "
-				+ "EmployeeID = '" + empID + "';");
-		
+		// String stringPay = Double.toString(pay);
+
+		stmnt.executeUpdate("UPDATE emp_info set EstimatedPay = '$"
+				+ two.format(pay) + "' where " + "EmployeeID = '" + empID
+				+ "';");
+
+		stmnt.close();
+
 	}
 
-	//sets hours
+	// sets hours
 	private void setHours(String empID) throws SQLException {
 		String minutes = null;
 		String currentHours = null;
 		double hours = 0;
 		Statement stmnt = connection.createStatement();
-		ResultSet resultMinutes = stmnt.executeQuery("select differenceInMinutes from emp_hours where EmployeeID = '"
-				+ empID + "';"); //grabs minutes
-		
-		while (resultMinutes.next()){
+		ResultSet resultMinutes = stmnt
+				.executeQuery("select differenceInMinutes from emp_hours where EmployeeID = '"
+						+ empID + "';"); // grabs minutes
+
+		while (resultMinutes.next()) {
 			minutes = resultMinutes.getString(1);
-			} //gets minutes from result
-		
-		ResultSet resultHours = stmnt.executeQuery("select EstimatedHours from emp_info where EmployeeID = '"
-				+ empID + "';");  //grabs hours
-		
-		while (resultHours.next()){
-			currentHours = resultHours.getString(1); //gets currentHours from emp_info 
-			}
-		int intMinutes = Integer.parseInt(minutes); //sets minutes string to int
+		} // gets minutes from result
 
+		ResultSet resultHours = stmnt
+				.executeQuery("select EstimatedHours from emp_info where EmployeeID = '"
+						+ empID + "';"); // grabs hours
 
-		hours = Double.parseDouble(currentHours); //sets currenthours string to double
-		hours += (Double) (intMinutes / 60.0); //cast double to set precision to 2 decimals
-											   //reason why im using += is to not reset 
-											   //the hours everytime but instead to keep adding since it'll be a two week reset from admin
-		
-		DecimalFormat two = new DecimalFormat("#0.00"); //format to set double precision to only two decimals 
-														//doing this bc if not, the double will be too long for the sql field
-		
-			//String stringHours = Double.toString(hours);
-			stmnt.executeUpdate("UPDATE emp_info set EstimatedHours = '" + two.format(hours) + "' where "
-					+ "EmployeeID = '" + empID + "';");
-		
-		
-		
+		while (resultHours.next()) {
+			currentHours = resultHours.getString(1); // gets currentHours from
+														// emp_info
+		}
+		int intMinutes = Integer.parseInt(minutes); // sets minutes string to
+													// int
+
+		hours = Double.parseDouble(currentHours); // sets currenthours string to
+													// double
+		hours += (Double) (intMinutes / 60.0); // cast double to set precision
+												// to 2 decimals
+												// reason why im using += is to
+												// not reset
+												// the hours everytime but
+												// instead to keep adding since
+												// it'll be a two week reset
+												// from admin
+
+		DecimalFormat two = new DecimalFormat("#0.00"); // format to set double
+														// precision to only two
+														// decimals
+														// doing this bc if not,
+														// the double will be
+														// too long for the sql
+														// field
+
+		// String stringHours = Double.toString(hours);
+		stmnt.executeUpdate("UPDATE emp_info set EstimatedHours = '"
+				+ two.format(hours) + "' where " + "EmployeeID = '" + empID
+				+ "';");
+
 	}
 
 	private void resetTime(String empID) throws SQLException {
 		Statement stmnt = connection.createStatement();
-		stmnt.executeUpdate("UPDATE emp_hours set clockInTime = 0 where EmployeeID = '" +
-					empID + "';");
-		stmnt.executeUpdate("UPDATE emp_hours set clockOutTime = 0 where EmployeeID = '" +
-				empID + "';");
-		stmnt.executeUpdate("UPDATE emp_hours set differenceInMinutes = 0 where EmployeeID = '" +
-				empID + "';");
-		
+		stmnt.executeUpdate("UPDATE emp_hours set clockInTime = 0 where EmployeeID = '"
+				+ empID + "';");
+		stmnt.executeUpdate("UPDATE emp_hours set clockOutTime = 0 where EmployeeID = '"
+				+ empID + "';");
+		stmnt.executeUpdate("UPDATE emp_hours set differenceInMinutes = 0 where EmployeeID = '"
+				+ empID + "';");
+
 	}
-	//get the difference from clockedIn time and clockOut time
+
+	// get the difference from clockedIn time and clockOut time
 
 	private void setDifferenceInTime(String empID) throws SQLException {
 		Statement stmnt = connection.createStatement();
-		ResultSet result = stmnt.executeQuery("select clockInTime, clockOutTime from emp_hours where EmployeeID = '"
-				+ empID + "';");
+		ResultSet result = stmnt
+				.executeQuery("select clockInTime, clockOutTime from emp_hours where EmployeeID = '"
+						+ empID + "';");
 		String time[] = new String[2];
-		
-		while(result.next()){
-			time[0] = result.getString(1); //clockInTime
-			time[1] = result.getString(2); //clockOutTime
-			
+
+		while (result.next()) {
+			time[0] = result.getString(1); // clockInTime
+			time[1] = result.getString(2); // clockOutTime
+
 		}
-		
-		long clockInTime = Long.parseLong(time[0]); //changes strings to long
+
+		long clockInTime = Long.parseLong(time[0]); // changes strings to long
 		long clockOutTime = Long.parseLong(time[1]);
-		
-		int difference =  (int) (clockOutTime - clockInTime); //gets difference 
-		int differenceInMinutes = difference / (1000 * 60); //calculates difference in minutes
-	
-		String stringDifference = Long.toString(differenceInMinutes); //changes long to string for query usage 
-		
-		stmnt.executeUpdate("UPDATE emp_hours set differenceInMinutes = '" 
+
+		int difference = (int) (clockOutTime - clockInTime); // gets difference
+		int differenceInMinutes = difference / (1000 * 60); // calculates
+															// difference in
+															// minutes
+
+		String stringDifference = Long.toString(differenceInMinutes); // changes
+																		// long
+																		// to
+																		// string
+																		// for
+																		// query
+																		// usage
+
+		stmnt.executeUpdate("UPDATE emp_hours set differenceInMinutes = '"
 				+ stringDifference + "' where EmployeeID = '" + empID + "';");
 	}
 
-	private void loadSignInPage() throws IOException {
+	protected void loadSignInPage() throws IOException {
 		Stage stg = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(SignIn_Controller.class
-				.getResource("RootGUI.fxml"));
+		loader.setLocation(SignIn_Controller.class.getResource("RootGUI.fxml"));
 		BorderPane root = (BorderPane) loader.load();
 
 		Scene scn = new Scene(root);
@@ -510,13 +677,11 @@ public class SignIn_Controller extends MainPage_Controller implements
 				.getResource("ShowControlGUI.fxml"));
 		AnchorPane controls = (AnchorPane) load.load();
 		root.setCenter(controls);
-		
-	}
 
+	}
 
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 
 	}
 

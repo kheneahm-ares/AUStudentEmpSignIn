@@ -39,8 +39,8 @@ public class StudEmpSignIn extends Application {
 //            Class.forName("com.mysql.jdbc.Driver");
 //            System.out.println("Driver Loaded");
             
-            DBaseDriver connect = new DBaseDriver("jdbc:mysql://localhost:3306/AUStudentEmployees",
-                    "kheneahm", "kennygoham");
+//            DBaseDriver connect = new DBaseDriver("jdbc:mysql://localhost:3306/AUStudentEmployees",
+//                    "kheneahm", "kennygoham");
             //System.out.println("Database Connected!");
             
             
@@ -84,6 +84,7 @@ public class StudEmpSignIn extends Application {
     }
         Scene scn = new Scene(rootLayout);
         primaryStage.setScene(scn);
+        primaryStage.sizeToScene();
         primaryStage.show();
     
 }
