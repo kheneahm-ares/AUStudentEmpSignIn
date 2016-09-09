@@ -57,8 +57,8 @@ public class MainPage_Controller implements Initializable {
 		window.setScene(scene);
 
 		Connection connect = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
-				"kennygoham");
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+				"password");
 
 		Statement stmnt = connect.createStatement();
 		ResultSet result = stmnt
@@ -97,8 +97,8 @@ public class MainPage_Controller implements Initializable {
 		window.setScene(scene);
 
 		Connection connect = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
-				"kennygoham");
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+				"password");
 
 		Statement stmnt = connect.createStatement();
 		ResultSet result = stmnt
@@ -150,8 +150,8 @@ public class MainPage_Controller implements Initializable {
 		window.setScene(scene);
 
 		Connection connect = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
-				"kennygoham");
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+				"password");
 
 		Statement stmnt = connect.createStatement();
 		ResultSet result = stmnt
