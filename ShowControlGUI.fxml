@@ -11,21 +11,21 @@
 
 <AnchorPane id="AnchorPane" pickOnBounds="false" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.SignIn_Controller">
    <children>
-      <Button fx:id="signInBtn" layoutX="379.0" layoutY="119.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#signIn" prefHeight="26.0" prefWidth="77.0" text="Sign In">
+      <Button fx:id="signInBtn" layoutX="379.0" layoutY="119.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#signIn" prefHeight="39.0" prefWidth="77.0" text="Sign In">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="16.0" />
          </font></Button>
-      <TextField fx:id="empIDField" layoutX="40.0" layoutY="119.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#signIn" prefHeight="26.0" prefWidth="315.0" text="Employee ID">
+      <TextField fx:id="empIDField" layoutX="40.0" layoutY="121.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#signIn" prefHeight="39.0" prefWidth="315.0" text="EmployeeID">
          <font>
-            <Font name="Arial Bold" size="13.0" />
+            <Font name="Times New Roman Bold" size="20.0" />
          </font></TextField>
-      <Text fx:id="invalidID" layoutX="40.0" layoutY="171.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid ID!" />
+      <Text fx:id="invalidID" fill="RED" layoutX="54.0" layoutY="178.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid ID!" />
       <ImageView fitHeight="103.0" fitWidth="200.0" layoutX="144.0" layoutY="14.0">
          <image>
             <Image url="@AuroraUniversity_logo.jpg" />
          </image>
          <effect>
-            <Blend />
+            <Blend mode="HARD_LIGHT" />
          </effect>
       </ImageView>
    </children>

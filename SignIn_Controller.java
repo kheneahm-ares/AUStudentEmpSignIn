@@ -36,6 +36,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -101,6 +102,8 @@ public class SignIn_Controller extends MainPage_Controller implements
 	Text timeText;
 	@FXML
 	Text adminGroupText;
+	@FXML
+	Text statusTxt;
 
 	MainPage_Controller method;
 	
@@ -263,6 +266,7 @@ public class SignIn_Controller extends MainPage_Controller implements
 					resetTime(empID); // reset everything to 0
 
 					changeStatus(clockedInValue, empID);
+					changeStatusTxt(statusTxt, true);
 					closeCurrentWindow(clockOutBtn); // closes window
 					loadSignInPage();
 				}
@@ -301,8 +305,10 @@ public class SignIn_Controller extends MainPage_Controller implements
 					clockOutError.setOpacity(0);
 					method = new MainPage_Controller();
 					long timeClockedIn = method.clockingIn();
-					clockTime(empID, timeClockedIn, true);
+					clockTime(empID, timeClockedIn, true); //true for isClockingIn
 					changeStatus(clockedInValue, empID);
+					changeStatusTxt(statusTxt, true); //status txt change
+
 				}
 
 			} catch (Exception ex) {
@@ -311,6 +317,22 @@ public class SignIn_Controller extends MainPage_Controller implements
 			}
 
 		});
+	}
+
+	//if status is false, then person clocked out
+	//vice versa, person is clocked in
+	protected void changeStatusTxt(Text text, boolean status) {
+		if(status == false){
+			text.setFill(Color.RED);
+			text.setText("OUT");
+			text.setOpacity(1);
+		}
+		else{
+			text.setFill(Color.GREEN);
+			text.setText("IN");
+			text.setOpacity(1);
+		}
+		
 	}
 
 	private void clockTime(String empID, long timeClocked, boolean isClockingIn)

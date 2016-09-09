@@ -7,16 +7,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="150.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.SignIn_Controller">
+<AnchorPane id="AnchorPane" prefHeight="100.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="studentempsignin.SignIn_Controller">
    <children>
-      <Text layoutX="102.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are Clocked In!" textAlignment="CENTER">
+      <Text layoutX="45.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are Clocked In!" textAlignment="CENTER" wrappingWidth="257.680908203125">
          <font>
-            <Font size="22.0" />
+            <Font name="Times New Roman Bold" size="27.0" />
          </font>
       </Text>
-      <Text fx:id="clockInText" layoutX="84.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="232.68292617797852">
+      <Text fx:id="clockInText" layoutX="57.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="232.68292617797852">
          <font>
-            <Font size="16.0" />
+            <Font name="Times New Roman Italic" size="16.0" />
          </font>
       </Text>
    </children>

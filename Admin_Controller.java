@@ -40,6 +40,9 @@ public class Admin_Controller {
 	private Button searchBtn;
 	@FXML
 	private Button searchUpdBtn;
+	@FXML 
+	private Button updateEmpBtn;
+	
 
 	@FXML
 	private Text empIDErrorTxt;
@@ -55,6 +58,10 @@ public class Admin_Controller {
 	private Text hidEmpID;
 	@FXML
 	private Text updateEmpIDError;
+	@FXML
+	private Text hidEmpIdUpd;
+	@FXML
+	private Text empUmpSuccess;
 	
 	@FXML
 	private Label empIDDelErrorLbl;
@@ -100,6 +107,60 @@ public class Admin_Controller {
 
 	public Admin_Controller() {
 
+	}
+	@FXML
+	public void updateEmp(){
+		updateEmpBtn.setOnAction((e) ->{
+			try{
+				
+				Connection connect = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+						"password");
+
+				Statement stmnt = connect.createStatement();
+				
+				method = new SignIn_Controller();
+
+				char[] empIDArray = updateEmpID.getText().toCharArray();
+				char[] fNameArray = updateFName.getText().toCharArray();
+				char[] lNameArray = updateLName.getText().toCharArray();
+
+			
+				//checks if the id is being used in admin/emp id database
+				boolean isIDInEmp = method.checkDatabase(updateEmpID
+					.getText());
+				boolean isIDInAdmin = method.checkDatabaseAdmin(updateEmpID
+					.getText());
+				//creates new string to pass through the method to check if
+				//it contains a letter
+				String empIDArrayString = new String(empIDArray); 
+				boolean isContainingLetter = checkString(empIDArrayString); //call method
+
+			
+				//setting which txt becomes visible depending on the conditions
+				boolean isValidEmp = checkEmpID(empIDArray, isContainingLetter, isIDInEmp, isIDInAdmin);
+				boolean isValidFName = checkFName(fNameArray, updateFName);
+				boolean isValidLName = checkLName(lNameArray, updateLName);
+				boolean isValidGName = checkGName(updateGroupName);
+				if(isValidEmp == true && isValidFName == true && isValidLName == true &&
+					 isValidGName == true) {
+					empIDErrorTxt.setText("");
+					fNameErrorTxt.setText("");
+					lNameErrorTxt.setText("");
+					gNameErrorTxt.setText("");
+					
+					stmnt.executeUpdate("UPDATE emp_info set EmployeeID = '" + updateEmpID.getText() +
+							"', FirstName = '" + updateFName.getText() + "', LastName = '" + updateLName.getText()
+							+ "', GroupName = '" + updateGroupName.getValue() + "' where EmployeeID = " +
+							hidEmpIdUpd.getText() + ";");
+					empUmpSuccess.setOpacity(1);
+					
+			 }
+			}
+			catch(Exception exc){
+				exc.printStackTrace();
+			}
+		});
 	}
 	@FXML
 	public void deleteEmp(){
@@ -151,6 +212,8 @@ public class Admin_Controller {
 				} 
 				else {
 					updateEmpIDError.setOpacity(0);
+					
+					hidEmpIdUpd.setText(empIDUpd.getText());
 					//empInfo.setEditable(true);
 					setFields(empIDUpd.getText());
 				
@@ -319,64 +382,12 @@ public class Admin_Controller {
 
 						
 						//setting which txt becomes visible depending on the conditions
-						if (empIDArray.length != 4) {
-							fNameErrorTxt.setOpacity(0);
-							lNameErrorTxt.setOpacity(0);
-							gNameErrorTxt.setOpacity(0);
-							empIDErrorTxt.setText("Emp ID not 4 characters!");
-							empIDErrorTxt.setOpacity(1);
-
-						}
-
-						else if (isContainingLetter == true) {
-							fNameErrorTxt.setOpacity(0);
-							lNameErrorTxt.setOpacity(0);
-							gNameErrorTxt.setOpacity(0);
-							empIDErrorTxt.setText("Emp ID contains letters!");
-							empIDErrorTxt.setOpacity(1);
-						} else if (isIDInEmp == true || isIDInAdmin == true) {
-							fNameErrorTxt.setOpacity(0);
-							lNameErrorTxt.setOpacity(0);
-							gNameErrorTxt.setOpacity(0);
-							empIDErrorTxt.setText("ID already being used!");
-							empIDErrorTxt.setOpacity(1);
-
-						} else if (fNameArray.length > 15) {
-							empIDErrorTxt.setOpacity(0);
-							lNameErrorTxt.setOpacity(0);
-							gNameErrorTxt.setOpacity(0);
-							fNameErrorTxt.setText("First Name too long");
-							fNameErrorTxt.setOpacity(1);
-						} else if (fNameArray.length == 0
-								|| fName.getText() == null) {
-							empIDErrorTxt.setOpacity(0);
-							lNameErrorTxt.setOpacity(0);
-							gNameErrorTxt.setOpacity(0);
-							fNameErrorTxt.setText("Empty First Name Field");
-							fNameErrorTxt.setOpacity(1);
-
-						} else if (lNameArray.length > 15) {
-							fNameErrorTxt.setOpacity(0);
-							empIDErrorTxt.setOpacity(0);
-							gNameErrorTxt.setOpacity(0);
-							lNameErrorTxt.setText("Last Name too long");
-							lNameErrorTxt.setOpacity(1);
-						} else if (lNameArray.length == 0
-								|| lName.getText() == null) {
-							fNameErrorTxt.setOpacity(0);
-							empIDErrorTxt.setOpacity(0);
-							gNameErrorTxt.setOpacity(0);
-							lNameErrorTxt.setText("Empty Last Name Field");
-							lNameErrorTxt.setOpacity(1);
-
-						} else if (groupName.getValue() == null) {
-							fNameErrorTxt.setOpacity(0);
-							lNameErrorTxt.setOpacity(0);
-							empIDErrorTxt.setOpacity(0);
-							gNameErrorTxt.setText("Choose a group");
-							gNameErrorTxt.setOpacity(1);
-
-						} else {
+						boolean isValidEmp = checkEmpID(empIDArray, isContainingLetter, isIDInEmp, isIDInAdmin);
+						boolean isValidFName = checkFName(fNameArray, fName);
+						boolean isValidLName = checkLName(lNameArray, lName);
+						boolean isValidGName = checkGName(groupName);
+						 if(isValidEmp == true && isValidFName == true && isValidLName == true &&
+								 isValidGName == true) {
 							empIDErrorTxt.setText("");
 							fNameErrorTxt.setText("");
 							lNameErrorTxt.setText("");
@@ -435,6 +446,90 @@ public class Admin_Controller {
 				});
 	}
 
+	private boolean checkGName(ComboBox<String> groupName) {
+		boolean isValid = false;
+		if (groupName.getValue() == null) {
+
+			gNameErrorTxt.setText("Choose a group");
+			gNameErrorTxt.setOpacity(1);
+
+		}
+		else{
+			gNameErrorTxt.setOpacity(0);
+			isValid = true;
+		}
+		return isValid;
+		
+	}
+	private boolean checkLName(char[] lNameArray, TextField lName) {
+		boolean isValid = false;
+		if (lNameArray.length > 15) {
+
+			lNameErrorTxt.setText("Last Name too long");
+			lNameErrorTxt.setOpacity(1);
+		} 
+		else if (lNameArray.length == 0
+				|| lName.getText() == null) {
+
+			lNameErrorTxt.setText("Empty Last Name Field");
+			lNameErrorTxt.setOpacity(1);
+
+		}
+		else{
+			lNameErrorTxt.setOpacity(0);
+			isValid = true;
+		}
+		
+		return isValid;
+		
+	}
+	private boolean checkFName(char[] fNameArray, TextField fName) {
+		boolean isValid = false;
+		if (fNameArray.length > 15) {
+			fNameErrorTxt.setText("First Name too long");
+			fNameErrorTxt.setOpacity(1);
+		} 
+		else if (fNameArray.length == 0
+				|| fName.getText() == null) {
+
+			fNameErrorTxt.setText("Empty First Name Field");
+			fNameErrorTxt.setOpacity(1);
+
+		} 
+		else{
+			fNameErrorTxt.setOpacity(0);
+			isValid = true;
+		}
+		return isValid;
+		
+	}
+	private boolean checkEmpID(char[] empIDArray, boolean isContainingLetter,
+			boolean isIDInEmp, boolean isIDInAdmin) {
+		boolean isValid = false;
+		
+		if (empIDArray.length != 4) {
+
+			empIDErrorTxt.setText("Emp ID not 4 characters!");
+			empIDErrorTxt.setOpacity(1);
+
+		}
+
+		else if (isContainingLetter == true) {
+			empIDErrorTxt.setText("Emp ID contains letters!");
+			empIDErrorTxt.setOpacity(1);
+		} 
+		else if (isIDInEmp == true || isIDInAdmin == true) {
+			empIDErrorTxt.setText("ID already being used!");
+			empIDErrorTxt.setOpacity(1);
+
+		}
+		else{
+			empIDErrorTxt.setOpacity(0);
+			isValid = true;
+		}
+		return isValid;
+		
+	}
 	//method for adding to database
 	//simple use of statements and setting GroupName, Pay, Hours and ClockedIn with
 	//default values

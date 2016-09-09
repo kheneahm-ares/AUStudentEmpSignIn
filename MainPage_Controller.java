@@ -93,7 +93,7 @@ public class MainPage_Controller implements Initializable {
 		Parent root = (Parent) loader.load();
 		SignIn_Controller controller = (SignIn_Controller) loader
 				.getController();
-		Scene scene = new Scene(root, 500, 300);
+		Scene scene = new Scene(root, 500, 250);
 		window.setScene(scene);
 
 		Connection connect = DriverManager.getConnection(
@@ -110,12 +110,26 @@ public class MainPage_Controller implements Initializable {
 					+ result.getString(2));
 			controller.empIDMain.setText(empID);
 		}
+		//check if clocked in
+		ResultSet statusResult = stmnt.executeQuery("select isClockedIn from emp_info"
+				+ " where EmployeeID = " + empID + ";");
+		
+		//change status according to result when loading page
+		while(statusResult.next()){
+			if(statusResult.getString(1).equalsIgnoreCase("1")) {
+				controller.changeStatusTxt(controller.statusTxt, true);
+			}
+			else{
+				controller.changeStatusTxt(controller.statusTxt, false);
+			}
+		}
 
 		// Label timeLabel = new Label();
 		// DateFormat df = new SimpleDateFormat("HH:mm:ss");
 		// Date dateobj = new Date();
 		new DigitalClock(controller.timeText); // creates instance
 		// controller.timeText.setText(dynamicTime.);
+		
 
 		window.show();
 

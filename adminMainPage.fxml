@@ -13,7 +13,7 @@
          <font>
             <Font name="Times New Roman Bold" size="22.0" />
          </font></Text>
-      <Text fx:id="adminGroupText" layoutX="75.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="46.0">
+      <Text fx:id="adminGroupText" layoutX="75.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="46.0">
          <font>
             <Font name="Times New Roman Bold" size="22.0" />
          </font></Text>
