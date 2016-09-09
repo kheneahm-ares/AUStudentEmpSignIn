@@ -424,8 +424,8 @@ public class SignIn_Controller extends MainPage_Controller implements
 	public void signingIn(String ID) throws SQLException, Exception {
 		// connect to database via connection type so you can createStatement
 		connection = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
-				"kennygoham");
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+				"password");
 
 		boolean isEmpIDInDatabase = checkDatabase(ID); // calls method to check
 														// database for empId	
@@ -524,8 +524,8 @@ public class SignIn_Controller extends MainPage_Controller implements
 		Set<String> arraySet = new HashSet<String>();
 		String[] arrayID;
 		Connection connect = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/AUStudentEmployees", "kheneahm",
-				"kennygoham");
+				"jdbc:mysql://localhost:3306/AUStudentEmployees", "root",
+				"password");
 
 		String query = "select EmployeeID from emp_info;";
 
